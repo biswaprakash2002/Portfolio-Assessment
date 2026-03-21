@@ -13,15 +13,17 @@ import lombok.ToString;
 @ToString
 public class UserRegisterDto {
 
-    @NotBlank
-    private String username;
+    
+//    private String username;
 
     @Email
+    @NotBlank
     private String email;
 
     @NotBlank
     private String password;
-
+    
+    @NotBlank
     private String fullName;
 
     

@@ -10,18 +10,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class ControllerLoggingAspect {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(ControllerLoggingAspect.class);
+    private static final Logger log = LoggerFactory.getLogger(ControllerLoggingAspect.class);
 
-    /**
-     * Pointcut for all controllers
-     */
+    //   Pointcut for all controllers
     @Pointcut("execution(* com.portfolio.controller..*(..))")
-    public void controllerMethods() {}
+    public void controllerMethods() {
+    	
+    }
 
-    /**
-     * Around advice → covers before + after + exception
-     */
+    //  Around advice → covers before + after + exception
     @Around("controllerMethods()")
     public Object logControllerExecution(ProceedingJoinPoint joinPoint)
             throws Throwable {

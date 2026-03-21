@@ -1,0 +1,208 @@
+1️⃣ RoleEntity → DTOs needed
+✅ Required DTOs (3)
+✔ RoleRequestDto
+Used for:
+Create role
+Update role
+Fields:
+roleName
+description
+
+❌ No id, isDeleted, timestamps
+
+✔ RoleResponseDto
+
+Used for:
+
+Get role by id
+
+Role details page
+
+Fields:
+
+id
+
+roleName
+
+description
+
+createdAt
+
+updatedAt
+
+✔ RoleListDto
+
+Used for:
+
+GET /roles (table, dropdown)
+
+Fields:
+
+id
+
+roleName
+
+description
+
+🔹 No RoleUser DTO
+
+You never expose userRoles directly
+
+Avoid recursion & over-fetching
+
+2️⃣ UserEntity → DTOs needed
+
+User is more complex, so it needs more DTOs.
+
+✅ Core DTOs (mandatory)
+✔ UserRegisterDto (or UserCreateDto)
+
+Used for:
+
+User signup
+
+Admin create user
+
+Fields:
+
+username
+
+email
+
+password
+
+fullName
+
+✔ UserResponseDto
+
+Used for:
+
+Get user profile
+
+Admin view user
+
+Fields:
+
+id
+
+username
+
+email
+
+fullName
+
+headline
+
+bio
+profileImageUrl
+
+contactNumber
+
+location
+
+accountStatus
+
+emailVerified
+
+createdAt
+
+updatedAt
+
+roles (⚠️ simplified)
+
+👉 roles should be:
+
+List<String> roles;
+
+
+NOT RoleEntity
+
+✔ UserListDto
+
+Used for:
+
+Admin user list
+
+Search users
+
+Fields:
+
+id
+
+username
+
+email
+
+accountStatus
+
+✅ Functional DTOs (very important)
+✔ UserLoginDto
+
+Fields:
+
+usernameOrEmail
+
+password
+
+✔ UserUpdateProfileDto
+
+Fields:
+
+fullName
+
+headline
+
+bio
+
+profileImageUrl
+
+contactNumber
+
+location
+
+❌ Never expose:
+
+passwordHash
+
+failedLoginAttempts
+
+lockUntil
+
+3️⃣ UserRoleEntity → DTOs needed
+
+This is a join table, so DTOs are action-based, not CRUD-based.
+
+✅ Required DTOs (2)
+✔ AssignRoleDto
+
+Used for:
+
+Assign role to user
+
+Fields:
+
+userId
+
+roleId
+
+✔ UserRoleResponseDto
+
+Used for:
+
+View user roles
+
+Admin audit
+
+Fields:
+
+userId
+
+roleName
+
+assignedAt
+
+❌ No UserRoleRequestDto / UserRoleEntityDto
+Because:
+
+Client never creates join table directly
+Service controls assignment logic

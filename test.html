@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skills List (JWT)</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: #eee;
+            border-radius: 6px;
+        }
+
+        .no-image {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ddd;
+            border-radius: 6px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Skills List (JWT Secured)</h2>
+
+<div class="container" id="skillsContainer"></div>
+
+<script>
+    const API_URL = "http://localhost:8765/api/skills";
+
+    // 🔐 YOUR JWT TOKEN
+    const TOKEN = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJiaXN3YUFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3NDA2NjE2MywiZXhwIjoxNzc0MTUyNTYzfQ.rReIhqhViyv72WrfBJQ0fyLol4X6ybJf7pIx9a0BAoh_as_OzubRPBD5_0xKa0y2";
+
+    fetch(API_URL, {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + TOKEN
+        }
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error("Unauthorized or API error");
+        }
+        return res.json();
+    })
+    .then(data => {
+        const container = document.getElementById("skillsContainer");
+
+        data.forEach(skill => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            let imageHtml = "";
+
+            if (skill.iconBase64) {
+                imageHtml = `<img src="data:image/png;base64,${skill.iconBase64}" />`;
+            } else {
+                imageHtml = `<div class="no-image">No Image</div>`;
+            }
+
+            card.innerHTML = `
+                ${imageHtml}
+                <h3>${skill.skillName}</h3>
+                <p><b>Level:</b> ${skill.proficiencyLevel}</p>
+                <p><b>Percentage:</b> ${skill.proficiencyPercentage}%</p>
+                <p><b>Experience:</b> ${skill.experienceYears} years</p>
+                <p><b>Category:</b> ${skill.categoryName}</p>
+            `;
+
+            container.appendChild(card);
+        });
+    })
+    .catch(err => {
+        console.error("Error:", err);
+        alert("Failed to load skills (Check JWT / Backend)");
+    });
+</script>
+
+</body>
+</html>

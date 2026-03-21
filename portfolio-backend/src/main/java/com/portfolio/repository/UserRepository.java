@@ -11,12 +11,16 @@ import com.portfolio.entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
 	
-	boolean existsByUsername(String username);
+//	boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
 
 	UserEntity getUserById(Long userId);
+	
+	Optional<UserEntity> findByEmail(String email);
+	
+	
 
-	Optional<UserEntity> findByUsername(String username);
+//	Optional<UserEntity> findByUsername(String username);
     
 }
